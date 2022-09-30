@@ -1,23 +1,61 @@
 import logo from './logo.svg';
 import './App.css';
+import {Container, InputGroup, FormControl, Button, Row, Card} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+import { useState, useEffect } from 'react';
+import { Searchbar } from './components/Searchbar';
+import { ProfileA } from './components/ProfileA';
 
+const CLIENT_ID = "5753dd65423845ea8d0748a51410a939";
+const CLIENT_SECRET = "edd38e72233541c5ae6ca70cd2d3ed00";
 function App() {
+  const [searchInput, setSearchInput] = useState("");
+  const [accessToken, setToken] = useState("");
+  const [profile, setProfile] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuva645Fdb0jY7cjhIbF7efZVbIKIhB2C8XV88KROU&s");
+   
+  //Initialising the spotify API code with useEffect, function only runs once on startup
+  useEffect(() =>{
+    //API Access Token
+    let authObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      body: 'grant_type=client_credentials&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET
+    }
+    fetch('https://accounts.spotify.com/api/token', authObj)
+    .then(result => result.json())
+    .then(data => setToken(data.access_token))
+  }, [])
+ 
+  // Search 
+  async function search(){
+    console.log("Searching for " + searchInput )
+    //Get request using search to get Artist ID
+    let artistObj = {
+      method: 'GET',
+      headers: {
+        'Content-Type' : 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+    let artistID = await fetch('https://api.spotify.com/v1/search?q=' + searchInput + '&type=artist', artistObj)
+    .then(response => response.json())
+    .then(data => {return(data.artists.items[0].id)})
+    // Get request with Artist ID grab major information and output it onto card
+    let artistInfo = await fetch('https://api.spotify.com/v1/artists/' + artistID, artistObj)
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data)
+      const bladee = data
+      setProfile(bladee)
+      console.log(profile.images[0].url)
+    });
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Searchbar search= {search} setSearchInput= {setSearchInput} />
+     <ProfileA profile= {profile}/>
     </div>
   );
 }
