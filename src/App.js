@@ -11,7 +11,7 @@ const CLIENT_SECRET = "edd38e72233541c5ae6ca70cd2d3ed00";
 function App() {
   const [searchInput, setSearchInput] = useState("");
   const [accessToken, setToken] = useState("");
-  const [profile, setProfile] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuva645Fdb0jY7cjhIbF7efZVbIKIhB2C8XV88KROU&s");
+  const [profile, setProfile] = useState("");
    
   //Initialising the spotify API code with useEffect, function only runs once on startup
   useEffect(() =>{
@@ -55,7 +55,8 @@ function App() {
   return (
     <div className="App">
      <Searchbar search= {search} setSearchInput= {setSearchInput} />
-     <ProfileA profile= {profile}/>
+     {profile !== "" ? <ProfileA profile= {profile}/> : ""}
+     
     </div>
   );
 }
