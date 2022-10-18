@@ -1,6 +1,6 @@
 import React from 'react'
 import {Container, InputGroup, FormControl, Button} from 'react-bootstrap';
-export const Searchbar = ({search,setSearchInput}) => {
+export const Searchbar = ({search,lastFM,setSearchInput}) => {
   return (
     <Container>
       <InputGroup className= "mb-3" size="lg">
@@ -14,7 +14,7 @@ export const Searchbar = ({search,setSearchInput}) => {
           }}
           onChange= {event => setSearchInput(event.target.value)}
         />
-        <Button onClick= {search}>
+        <Button onClick= {lastFM}>
           Search
         </Button>
         </InputGroup>

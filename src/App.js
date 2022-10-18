@@ -5,13 +5,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
 import { Searchbar } from './components/Searchbar';
 import { ProfileA } from './components/ProfileA';
-
+import { ArtistBio } from './components/ArtistBio';
 const CLIENT_ID = "5753dd65423845ea8d0748a51410a939";
 const CLIENT_SECRET = "edd38e72233541c5ae6ca70cd2d3ed00";
+const apiKey = "798a1554c611525e813f8bf3219723ef"
 function App() {
   const [searchInput, setSearchInput] = useState("");
   const [accessToken, setToken] = useState("");
   const [profile, setProfile] = useState("");
+  const [lfmData, updateLfmData] = useState({});
    
   //Initialising the spotify API code with useEffect, function only runs once on startup
   useEffect(() =>{
@@ -27,6 +29,25 @@ function App() {
     .then(result => result.json())
     .then(data => setToken(data.access_token))
   }, [])
+  useEffect(()=>{
+    console.log("hi running")
+    if (profile !== ""){
+      fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${profile.name}&api_key=${apiKey}&format=json`)
+      .then(response => {
+        if (response.ok){
+          return response.json();
+        }
+        throw new Error ('error');
+      })
+      .then(data =>{
+        updateLfmData(data)
+        console.log(data)
+      })
+      .catch(() =>
+        updateLfmData({error: 'Oops! Last.fm is bugging out right now'})
+        );
+    }
+  },[profile])
  
   // Search 
   async function search(){
@@ -47,16 +68,14 @@ function App() {
     .then(response => response.json())
     .then(data =>{
       console.log(data)
-      const bladee = data
-      setProfile(bladee)
-      console.log(profile.images[0].url)
+      const check = data
+      setProfile(check)
     });
   }
   return (
     <div className="App">
      <Searchbar search= {search} setSearchInput= {setSearchInput} />
      {profile !== "" ? <ProfileA profile= {profile}/> : ""}
-     
     </div>
   );
 }
