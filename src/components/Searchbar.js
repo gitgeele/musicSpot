@@ -14,7 +14,7 @@ export const Searchbar = ({search,lastFM,setSearchInput}) => {
           }}
           onChange= {event => setSearchInput(event.target.value)}
         />
-        <Button onClick= {lastFM}>
+        <Button onClick= {search}>
           Search
         </Button>
         </InputGroup>

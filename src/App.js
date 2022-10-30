@@ -14,6 +14,7 @@ function App() {
   const [accessToken, setToken] = useState("");
   const [profile, setProfile] = useState("");
   const [lfmData, updateLfmData] = useState({});
+  const [lfmAlbums, updateLfmAlbums] = useState({});
    
   //Initialising the spotify API code with useEffect, function only runs once on startup
   useEffect(() =>{
@@ -31,22 +32,41 @@ function App() {
   }, [])
   useEffect(()=>{
     console.log("hi running")
-    if (profile !== ""){
-      fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${profile.name}&api_key=${apiKey}&format=json`)
-      .then(response => {
-        if (response.ok){
-          return response.json();
-        }
-        throw new Error ('error');
-      })
-      .then(data =>{
-        updateLfmData(data)
-        console.log(data)
-      })
-      .catch(() =>
-        updateLfmData({error: 'Oops! Last.fm is bugging out right now'})
-        );
+    const fetchData = async () =>{
+      if (profile !== ""){
+        await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${profile.name}&api_key=${apiKey}&format=json`)
+        .then(response => {
+          if (response.ok){
+            return response.json();
+          }
+          throw new Error ('error');
+        })
+        .then(data =>{
+          updateLfmData(data)
+          console.log(data)
+        })
+        .catch(() =>
+          updateLfmData({error: 'Oops! Last.fm is bugging out right now'})
+          );
+        await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${profile.name}&api_key=${apiKey}&format=json`)
+        .then(response => {
+          if (response.ok){
+            return response.json();
+          }
+          throw new Error ('error');
+        })
+        .then(data =>{
+          updateLfmAlbums(data)
+          const albumName = data.topalbums.album
+        })
+        .catch(() =>
+          updateLfmAlbums({error: 'Oops! Last.fm is bugging out right now'})
+          );
+      }
+      
     }
+    fetchData()
+    
   },[profile])
  
   // Search 
@@ -67,7 +87,6 @@ function App() {
     let artistInfo = await fetch('https://api.spotify.com/v1/artists/' + artistID, artistObj)
     .then(response => response.json())
     .then(data =>{
-      console.log(data)
       const check = data
       setProfile(check)
     });
@@ -75,7 +94,9 @@ function App() {
   return (
     <div className="App">
      <Searchbar search= {search} setSearchInput= {setSearchInput} />
-     {profile !== "" ? <ProfileA profile= {profile}/> : ""}
+     {Object.entries(lfmAlbums).length !== 0 ? 
+     <ProfileA profile= {profile} lfmData = {lfmData} albums = {lfmAlbums}/>
+      : ""}
     </div>
   );
 }
