@@ -1,7 +1,9 @@
 import React from 'react'
 import {Container, InputGroup, FormControl, Button} from 'react-bootstrap';
-export const Searchbar = ({search,lastFM,setSearchInput}) => {
+//Component to represent the searchbar
+export const Searchbar = ({search,setSearchInput}) => {
   return (
+    //Setting the onclicks and onpresses from the form and button to kick off the search function
     <Container>
       <InputGroup className= "mb-3" size="lg">
         <FormControl
