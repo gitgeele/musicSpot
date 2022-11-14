@@ -1,8 +1,8 @@
 # Music Spot
-[![React]('/client/public/musicSpotPics/react.PNG')](https://reactjs.org/)
-[![Bootstrap]('/client/public/musicSpotPics/bootstrap.PNG')](https://getbootstrap.com/)
-[![SpotifyAPI]('/client/public/musicSpotPics/spotify.PNG')](https://developer.spotify.com/documentation/web-api/)
-[![LastFM API]('/client/public/musicSpotPics/lastfm.PNG')](https://www.last.fm/api)
+<img src = "https://user-images.githubusercontent.com/61510670/201717344-bf5d1acb-9370-41ca-bb41-024ccbc7a376.PNG" width= "100" height= "50"> <img src = "https://user-images.githubusercontent.com/61510670/201717426-f365ee92-ac51-4cd3-ba18-f042b7a61daf.PNG" width= "100" height= "50">
+<img src = "https://user-images.githubusercontent.com/61510670/201717403-eb19a173-9c1f-4e0d-97bf-e3f77e2153bf.PNG" width= "100" height= "50">
+<img src = "https://user-images.githubusercontent.com/61510670/201717377-c9c39663-a5f5-4bb4-b0c0-aa6a0c14b342.PNG" width= "100" height= "50">
+
 MusicSpot is a React based music searcher that utilises the LastFM and Spotify API to showcase artist information.
 
 - Search for the Artist
@@ -29,5 +29,6 @@ npm i
 npm start react
 ```
 ## Example
-![Example 1]('/client/public/musicSpotPics/SC1.PNG')
-![Example 2]('/client/public/musicSpotPics/SC2.PNG')
+![Example 1](https://user-images.githubusercontent.com/61510670/201717455-61d1d2b5-396f-4dcf-86df-2532ebc8bb8c.PNG)
+## Example 2
+![Example 2](https://user-images.githubusercontent.com/61510670/201717469-6927f131-0521-4ee9-94c1-00f441d7386b.PNG)
