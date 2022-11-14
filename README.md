@@ -16,7 +16,6 @@ Stack I have used. 👨‍💻
 - [[Bootstrap](https://getbootstrap.com/)] - UI boilerplate for modern web apps
 - [[Spotify](https://developer.spotify.com/documentation/web-api/)] - Spotify API endpoints for efficient searching
 - [[LastFM](https://www.last.fm/api)] - LastFM API endpoints for additional music content
-- 
 
 ## Installation
 Music Spot requires React v18+ to run.
